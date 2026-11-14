@@ -16,12 +16,13 @@ type NetworkRule struct {
 	RuleID   string
 }
 
-// Meta is non-lifecycle sandbox metadata.
+// Meta stores non-lifecycle metadata and the clone configuration/status record.
 type Meta struct {
 	Agent         string
 	Detached      bool
 	PolicyProfile string
 	LastUsedAt    time.Time
+	Clone         *CloneState
 }
 
 // NetworkPolicy is the create-time allow/deny policy snapshot.
@@ -83,7 +84,6 @@ type Sandbox struct {
 	Image      string
 	Workspace  string
 	Workspaces []Workspace
-	Clone      *CloneState
 	Ports      []Port
 	Policy     *NetworkPolicy
 	Meta       *Meta
