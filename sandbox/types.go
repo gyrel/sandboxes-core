@@ -38,10 +38,12 @@ type Port struct {
 	HostIP   string
 }
 
-// Workspace is a host path mounted into the guest at the same absolute path.
+// Workspace maps a host path into the guest. An empty GuestPath preserves the
+// legacy behavior and mounts Path at the same absolute path inside the guest.
 type Workspace struct {
-	Path     string
-	ReadOnly bool
+	Path      string
+	GuestPath string
+	ReadOnly  bool
 }
 
 // Sandbox is the durable sandbox record.
