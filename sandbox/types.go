@@ -16,12 +16,13 @@ type NetworkRule struct {
 	RuleID   string
 }
 
-// Meta is non-lifecycle sandbox metadata.
+// Meta stores non-lifecycle metadata and the clone configuration/status record.
 type Meta struct {
 	Agent         string
 	Detached      bool
 	PolicyProfile string
 	LastUsedAt    time.Time
+	Clone         *CloneState
 }
 
 // NetworkPolicy is the create-time allow/deny policy snapshot.
@@ -38,10 +39,40 @@ type Port struct {
 	HostIP   string
 }
 
-// Workspace is a host path mounted into the guest at the same absolute path.
+// Workspace maps a host path into the guest. An empty GuestPath preserves the
+// legacy behavior and mounts Path at the same absolute path inside the guest.
 type Workspace struct {
-	Path     string
-	ReadOnly bool
+	Path      string
+	GuestPath string
+	ReadOnly  bool
+}
+
+// CloneOptions describes a private guest checkout copied from one workspace.
+// A nil GuestWorkdir lets the daemon use the guest image's default directory.
+type CloneOptions struct {
+	SourceWorkspacePath string
+	GuestWorkdir        *string
+}
+
+// GitEndpoint is the host-loopback endpoint that forwards to a guest Git daemon.
+type GitEndpoint struct {
+	HostIP     string
+	Port       uint16
+	Repository string
+}
+
+// CloneInfo is the persisted clone directory and current guest Git endpoint.
+// GitEndpoint is nil while the sandbox is stopped.
+type CloneInfo struct {
+	GuestWorkdir string
+	RemoteName   string
+	GitEndpoint  *GitEndpoint
+}
+
+// CloneState persists the clone request and live clone endpoint together.
+type CloneState struct {
+	Options CloneOptions
+	Info    *CloneInfo
 }
 
 // Sandbox is the durable sandbox record.
