@@ -68,6 +68,12 @@ type CloneInfo struct {
 	GitEndpoint  *GitEndpoint
 }
 
+// CloneState persists the clone request and live clone endpoint together.
+type CloneState struct {
+	Options CloneOptions
+	Info    *CloneInfo
+}
+
 // Sandbox is the durable sandbox record.
 type Sandbox struct {
 	ID         string
@@ -77,8 +83,7 @@ type Sandbox struct {
 	Image      string
 	Workspace  string
 	Workspaces []Workspace
-	Clone      *CloneOptions
-	CloneInfo  *CloneInfo
+	Clone      *CloneState
 	Ports      []Port
 	Policy     *NetworkPolicy
 	Meta       *Meta
