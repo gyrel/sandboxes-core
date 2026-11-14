@@ -46,6 +46,28 @@ type Workspace struct {
 	ReadOnly  bool
 }
 
+// CloneOptions describes a private guest checkout copied from one workspace.
+// A nil GuestWorkdir lets the daemon use the guest image's default directory.
+type CloneOptions struct {
+	SourceWorkspacePath string
+	GuestWorkdir        *string
+}
+
+// GitEndpoint is the host-loopback endpoint that forwards to a guest Git daemon.
+type GitEndpoint struct {
+	HostIP     string
+	Port       uint16
+	Repository string
+}
+
+// CloneInfo is the persisted clone directory and current guest Git endpoint.
+// GitEndpoint is nil while the sandbox is stopped.
+type CloneInfo struct {
+	GuestWorkdir string
+	RemoteName   string
+	GitEndpoint  *GitEndpoint
+}
+
 // Sandbox is the durable sandbox record.
 type Sandbox struct {
 	ID         string
@@ -55,6 +77,8 @@ type Sandbox struct {
 	Image      string
 	Workspace  string
 	Workspaces []Workspace
+	Clone      *CloneOptions
+	CloneInfo  *CloneInfo
 	Ports      []Port
 	Policy     *NetworkPolicy
 	Meta       *Meta
