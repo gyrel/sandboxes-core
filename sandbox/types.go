@@ -7,13 +7,33 @@ import (
 )
 
 // NetworkRule is a CIDR or domain/protocol/port egress rule. Domain and CIDR
-// are mutually exclusive.
+// are mutually exclusive. HTTP conditions (Methods, Path, Query) restrict an
+// already-allowed target to specific requests; they are enforced by the
+// gateway request-head matcher. A rule with any HTTP condition set is an
+// HTTP-conditioned rule even when Methods contains only "ANY"; daemons that
+// cannot evaluate HTTP conditions must reject such rules rather than treat
+// them as unconditioned allows (fail closed).
 type NetworkRule struct {
 	Protocol string
 	CIDR     string
 	Port     uint16
 	Domain   string
 	RuleID   string
+	// Methods holds canonical upper-case HTTP methods ("GET", "ANY", ...).
+	Methods []string
+	// Path is a segment-aware glob over the decoded request path; "**" spans
+	// segments, "*" does not.
+	Path string
+	// Query lists parameter conditions; all must match (exact name, glob
+	// value).
+	Query []QueryCondition
+}
+
+// QueryCondition requires one HTTP query parameter name with a value matching
+// the glob pattern in Value.
+type QueryCondition struct {
+	Name  string
+	Value string
 }
 
 // Meta stores non-lifecycle metadata and the clone configuration/status record.
