@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `sandbox.NetworkRule` carries HTTP L7 conditions (`Methods`, `Path`,
+  `Query []QueryCondition`) mirroring the gateway policy engine semantics.
+  Zero values keep existing rules unconditioned; persistence encodes rules as
+  whole structs, so stored rows from before this release decode to no HTTP
+  conditions.
+
 ## v0.0.13 — 2026-11-16
 
 ### Changed
