@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	core "github.com/rheic/sandboxes-core"
+	core "github.com/gyrel/sandboxes-core"
 )
 
 type fakeStore struct {
