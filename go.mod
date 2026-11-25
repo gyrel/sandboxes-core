@@ -1,3 +1,3 @@
-module github.com/rheic/sandboxes-core
+module github.com/gyrel/sandboxes-core
 
 go 1.27

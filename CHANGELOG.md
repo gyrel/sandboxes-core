@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+### Changed
+
+- Rename the Go module path from `github.com/rheic/sandboxes-core` to
+  `github.com/gyrel/sandboxes-core`. Breaking change; pre-1.0 alpha policy.
+
 ### Added
 
 - `sandbox.NetworkRule` carries HTTP L7 conditions (`Methods`, `Path`,
