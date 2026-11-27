@@ -113,6 +113,13 @@ type Sandbox struct {
 	Error      string
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
+	// Labels holds user-supplied metadata. Unset labels are nil.
+	Labels map[string]string `json:"labels,omitempty"`
+}
+
+// CreateInput holds the core-owned inputs for creating a sandbox.
+type CreateInput struct {
+	Labels map[string]string
 }
 
 // ListOptions controls pagination.
